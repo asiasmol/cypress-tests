@@ -13,11 +13,14 @@ describe('Contact Page Automation Tests', () => {
 
         // przechodzimy na stronę formularza
         ContactPage.visit();
+
+        // ładujemy dane formularza z fixtures
+        cy.fixture('contactForm').as('contactData');
+
     });
 
 
     // TEST 1 — widoczność formularza
-
 
     it('Should display contact form elements', () => {
 
@@ -34,7 +37,6 @@ describe('Contact Page Automation Tests', () => {
 
     // TEST 2 — pusty formularz
 
-
     it('Should show validation errors when submitting empty form', () => {
 
         // wysyłamy pusty formularz
@@ -46,39 +48,42 @@ describe('Contact Page Automation Tests', () => {
 
 
     // TEST 3 — wpisywanie danych
-    
 
-    it('Should allow filling contact form fields', () => {
+    it('Should allow filling contact form fields', function () {
 
         // uzupełniamy podstawowe dane formularza
         ContactPage.fillBasicForm(
-            'Jan Kowalski',
-            'test@test.pl',
-            '600600600'
+            this.contactData.validData.name,
+            this.contactData.validData.email,
+            this.contactData.validData.phone
         );
 
         // weryfikujemy czy dane zostały poprawnie wpisane
-        ContactPage.nameInput.should('have.value', 'Jan Kowalski');
-        ContactPage.emailInput.should('have.value', 'test@test.pl');
-        ContactPage.phoneInput.should('have.value', '600600600');
+        ContactPage.nameInput
+            .should('have.value', this.contactData.validData.name);
+
+        ContactPage.emailInput
+            .should('have.value', this.contactData.validData.email);
+
+        ContactPage.phoneInput
+            .should('have.value', this.contactData.validData.phone);
     });
 
 
     // TEST 4 — select kraj
 
-
-    it('Should allow selecting country', () => {
+    it('Should allow selecting country', function () {
 
         // wybieramy kraj z listy
-        ContactPage.selectCountry('Polska');
+        ContactPage.selectCountry(this.contactData.validData.country);
 
         // sprawdzamy czy wartość została ustawiona
-        ContactPage.countrySelect.should('have.value', 'Polska');
+        ContactPage.countrySelect
+            .should('have.value', this.contactData.validData.country);
     });
 
 
     // TEST 5 — checkbox zgody
-  
 
     it('Should allow checking and unchecking consent checkbox', () => {
 
@@ -95,13 +100,13 @@ describe('Contact Page Automation Tests', () => {
         ContactPage.consentCheckbox.should('not.be.checked');
     });
 
+
     // TEST 6 — błędny email
 
-
-    it('Should display error for invalid email format', () => {
+    it('Should display error for invalid email format', function () {
 
         // wpisujemy niepoprawny email
-        ContactPage.emailInput.type('zlyemail');
+        ContactPage.fillEmail(this.contactData.invalidData.email);
 
         // wysyłamy formularz
         ContactPage.submitForm();

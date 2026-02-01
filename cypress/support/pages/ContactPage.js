@@ -36,29 +36,36 @@ class ContactPage {
         return cy.get('.wpforms-error');
     }
 
-    // METODY AKCJI
-
     // otwarcie strony kontaktowej
     visit() {
         cy.visit('/contact');
     }
 
-    // uzupełnienie podstawowych danych formularza
-    fillBasicForm(name, email, phone) {
-
-        // wpisujemy imię
+    // wpisywanie imienia
+    fillName(name) {
         this.nameInput.clear().type(name);
+    }
 
-        // wpisujemy email
+    // wpisywanie emaila
+    fillEmail(email) {
         this.emailInput.clear().type(email);
+    }
 
-        // wpisujemy telefon
+    // wpisywanie telefonu
+    fillPhone(phone) {
         this.phoneInput.clear().type(phone);
     }
 
     // wybór kraju z listy
     selectCountry(country) {
         this.countrySelect.select(country);
+    }
+
+    // uzupełnienie podstawowych danych formularza
+    fillBasicForm(name, email, phone) {
+        this.fillName(name);
+        this.fillEmail(email);
+        this.fillPhone(phone);
     }
 
     // zaznaczenie checkboxa zgody

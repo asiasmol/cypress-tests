@@ -1,0 +1,15 @@
+{
+  "validData": {
+    "name": "Jan Kowalski",
+    "email": "test@test.pl",
+    "phone": "600600600",
+    "country": "Polska"
+  },
+  "invalidData": {
+    "email": "zlyemail"
+  },
+  "edgeCases": {
+    "longName": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+    "emojiText": "🔥🔥🔥🔥🔥🔥🔥🔥🔥"
+  }
+}
