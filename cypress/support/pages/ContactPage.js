@@ -1,0 +1,81 @@
+class ContactPage {
+
+
+    // pole imię i nazwisko
+    get nameInput() {
+        return cy.get('#wpforms-10-field_0');
+    }
+
+    // pole email
+    get emailInput() {
+        return cy.get('#wpforms-10-field_1');
+    }
+
+    // pole telefon
+    get phoneInput() {
+        return cy.get('#wpforms-10-field_3');
+    }
+
+    // select kraj
+    get countrySelect() {
+        return cy.get('#wpforms-10-field_4');
+    }
+
+    // checkbox zgody
+    get consentCheckbox() {
+        return cy.get('#wpforms-10-field_5_2');
+    }
+
+    // przycisk submit
+    get submitButton() {
+        return cy.get('#wpforms-submit-10');
+    }
+
+    // komunikaty błędów formularza
+    get validationError() {
+        return cy.get('.wpforms-error');
+    }
+
+    // METODY AKCJI
+
+    // otwarcie strony kontaktowej
+    visit() {
+        cy.visit('/contact');
+    }
+
+    // uzupełnienie podstawowych danych formularza
+    fillBasicForm(name, email, phone) {
+
+        // wpisujemy imię
+        this.nameInput.clear().type(name);
+
+        // wpisujemy email
+        this.emailInput.clear().type(email);
+
+        // wpisujemy telefon
+        this.phoneInput.clear().type(phone);
+    }
+
+    // wybór kraju z listy
+    selectCountry(country) {
+        this.countrySelect.select(country);
+    }
+
+    // zaznaczenie checkboxa zgody
+    checkConsent() {
+        this.consentCheckbox.check();
+    }
+
+    // odznaczenie checkboxa zgody
+    uncheckConsent() {
+        this.consentCheckbox.uncheck();
+    }
+
+    // wysłanie formularza
+    submitForm() {
+        this.submitButton.click();
+    }
+
+}
+
+export default new ContactPage();
