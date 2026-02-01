@@ -70,6 +70,60 @@ it('Should handle emoji characters in name field', function () {
 
 });
 
+
+// TEST ZAAWANSOWANY — symulacja odpowiedzi backendu (cy.intercept)
+
+
+it('Powinien poprawnie wysłać formularz przy zasymulowanej odpowiedzi serwera', function () {
+
+    // przechwytujemy zapytanie wysyłane przez formularz
+    // zamiast prawdziwego backendu zwracamy własną odpowiedź
+    cy.intercept('POST', '**', {
+
+        // symulujemy poprawną odpowiedź serwera (status 200)
+        statusCode: 200,
+
+        // przykładowe dane zwracane przez backend
+        body: {
+            success: true
+        }
+
+    }).as('submitForm'); // nadajemy alias, aby móc później na niego czekać
+
+
+    // uzupełniamy formularz przykładowymi danymi
+
+    ContactPage.fillBasicForm(
+        this.edge.longText.substring(0, 20), // bierzemy fragment długiego tekstu
+        'test@test.pl',
+        '600600600'
+    );
+
+    // zaznaczamy checkbox zgody
+    ContactPage.checkConsent();
+
+    // klikamy przycisk wysyłania formularza
+    ContactPage.submitForm();
+
+
+    // czekamy aż formularz faktycznie wyśle zapytanie HTTP
+    // Cypress zatrzyma test w tym miejscu aż request zostanie wykonany
+    cy.wait('@submitForm').then((interception) => {
+
+    // sprawdzamy czy request faktycznie istnieje
+    expect(interception).to.exist;
+
+    // sprawdzamy czy backend dostał dane
+    expect(interception.request.body).to.exist;
+
+    // opcjonalnie: wypisujemy request do logów Cypressa
+    cy.log(JSON.stringify(interception.request.body));
+
+
+});
+
+});
+
     // EDGE TEST  — bardzo długi input (pisanie ręczne)
 
     it('Should handle very long text input without breaking the form', function () {
