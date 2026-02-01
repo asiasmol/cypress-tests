@@ -1,6 +1,7 @@
 /// <reference types="cypress" />
 
 import LoginPage from '../support/pages/LoginPage';
+import users from '../fixtures/users.json';
 
 
 describe('Login Page Automation Tests', () => {
@@ -25,7 +26,7 @@ describe('Login Page Automation Tests', () => {
     // TEST 1 — poprawne logowanie
 
 
-    it("Should login successfully with valid credentials", () => {
+    it("Should login successfully with valid credentials", function () {
 
         // uzupełniamy pole login oraz hasło
         // metoda pochodzi z Page Object LoginPage
@@ -55,7 +56,7 @@ describe('Login Page Automation Tests', () => {
     // TEST 2 — błędne hasło
 
 
-    it("Should display error message for invalid password", () => {
+    it("Should display error message for invalid password", function () {
 
         // wpisujemy poprawny login oraz niepoprawne hasło
         LoginPage.fillForm(
