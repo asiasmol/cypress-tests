@@ -16,6 +16,9 @@ describe('Login Page Automation Tests', () => {
         // przechodzimy na stronę logowania
         // baseUrl pochodzi z pliku cypress.config.js
         cy.visit('/my-account/');
+
+        // ładujemy dane testowe z fixtures
+        cy.fixture('users').as('users');
     });
 
 
@@ -26,7 +29,10 @@ describe('Login Page Automation Tests', () => {
 
         // uzupełniamy pole login oraz hasło
         // metoda pochodzi z Page Object LoginPage
-        LoginPage.fillForm('testuser', 'testpassword');
+        LoginPage.fillForm(
+            this.users.validUser.username,
+            this.users.validUser.password
+        );
 
         // zaznaczamy checkbox "Remember Me"
         // symulujemy zapamiętanie sesji użytkownika
@@ -52,7 +58,10 @@ describe('Login Page Automation Tests', () => {
     it("Should display error message for invalid password", () => {
 
         // wpisujemy poprawny login oraz niepoprawne hasło
-        LoginPage.fillForm('testuser', 'zlehaslo');
+        LoginPage.fillForm(
+            this.users.validUser.username,
+            this.users.invalidUser.password
+        );
 
         // klikamy przycisk Login
         LoginPage.submitForm();

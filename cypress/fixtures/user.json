@@ -2,10 +2,14 @@
   "validUser": {
     "username": "testuser",
     "password": "testpassword",
-    "classes": ["admin", "editor", "viewer"]
+    "roles": ["admin", "editor", "viewer"]
   },
   "invalidUser": {
     "username": "wronguser",
     "password": "wrongpassword"
+  },
+  "edgeCases": {
+    "longUsername": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "sqlInjection": "' OR 1=1 --"
   }
 }
